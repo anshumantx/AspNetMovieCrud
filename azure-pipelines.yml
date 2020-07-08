@@ -32,9 +32,43 @@ stages:
         solution: '$(solution)'
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
-
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: '$(Pipeline.Workspace)'
-        artifact: 'windeskapp'
+        artifact: 'moviecrudartifact'
         publishLocation: 'pipeline'
+
+- stage : Deploy
+  displayName: Deploy stage
+  dependsOn: Build
+  jobs:  
+  - deployment: VMDeploy
+    displayName: web
+    environment:
+      name:  winappAzureVM
+      resourceType: VirtualMachine
+      tags: AzureVM
+    strategy: 
+      runOnce:
+          deploy:
+            steps:
+            - task: IISWebAppDeploymentOnMachineGroup@0
+              inputs:
+                WebSiteName: 'moviecrud'
+                Package: '$(Pipeline.Workspace)\moviecrudartifact\**\*.zip'
+                
+            - task: IISWebAppManagementOnMachineGroup@0
+              inputs:
+                EnableIIS: true
+                IISDeploymentType: 'IISWebsite'
+                ActionIISWebsite: 'CreateOrUpdateWebsite'
+                WebsiteName: 'moviecrud'
+                WebsitePhysicalPath: '%SystemDrive%\inetpub\wwwroot'
+                WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
+                AddBinding: true
+                Bindings: 'http/All Unassigned:80:'
+                CreateOrUpdateAppPoolForWebsite: true
+                AppPoolNameForWebsite: 'moviecrud'
+                DotNetVersionForWebsite: 'No Managed Code'
+                PipeLineModeForWebsite: 'Integrated'
+                AppPoolIdentityForWebsite: 'ApplicationPoolIdentity'
