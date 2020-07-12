@@ -47,16 +47,16 @@ stages:
 
 
 
-    - task: AzureFileCopy@4
-      inputs:
-        azureSubscription: 'Visual Studio Enterprise – MPN (da791a4e-3933-4213-a43e-f94f3e2187c3)'
-        Destination: 'AzureVMs'
-        storage: 'txwinappsdeploymentgroup'
-        resourceGroup: 'TXWINAPPSDEPLOYMENTGROUP'
-        MachineNames: 'WindowsServerVM'
-        vmsAdminUserName: 'Anshuman'
-        vmsAdminPassword: 'Admin@123456'
-        TargetPath: 'D:\AspNetApp''
+    # - task: AzureFileCopy@4
+    #   inputs:
+    #     azureSubscription: 'Visual Studio Enterprise – MPN (da791a4e-3933-4213-a43e-f94f3e2187c3)'
+    #     Destination: 'AzureVMs'
+    #     storage: 'txwinappsdeploymentgroup'
+    #     resourceGroup: 'TXWINAPPSDEPLOYMENTGROUP'
+    #     MachineNames: 'WindowsServerVM'
+    #     vmsAdminUserName: 'Anshuman'
+    #     vmsAdminPassword: 'Admin@123456'
+    #     TargetPath: 'D:\AspNetApp''
 
 
 
