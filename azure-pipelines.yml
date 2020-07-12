@@ -85,10 +85,17 @@ stages:
                 TargetFolder: 'D:\AspNetApp'
                 OverWrite: true
 
-            - task: IISWebAppManagementOnMachineGroup@0
+
+            - task: IISWebAppDeploymentOnMachineGroup@0
               inputs:
-                EnableIIS: true
-                IISDeploymentType: 'IISWebsite'
-                ActionIISWebsite: 'CreateOrUpdateWebsite'
-                WebsitePhysicalPath: '%SystemDrive%\inetpub\wwwroot'
-                WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
+                WebSiteName: 'RazorPagesMovie'
+                Package: '$(Pipeline.Workspace)/aspcrudapp/s/RazorPagesMovie/bin/Release/netcoreapp3.1/*.zip'
+
+
+            # - task: IISWebAppManagementOnMachineGroup@0
+            #   inputs:
+            #     EnableIIS: true
+            #     IISDeploymentType: 'IISWebsite'
+            #     ActionIISWebsite: 'CreateOrUpdateWebsite'
+            #     WebsitePhysicalPath: '%SystemDrive%\inetpub\wwwroot'
+            #     WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
