@@ -71,9 +71,9 @@ stages:
   - deployment: VMDeploy
     displayName: web
     environment:
-      name: winappAzureVM
+      name: WindowsServerVM
       resourceType: VirtualMachine
-      tags: WindowsServerVM
+      tags: WinApps
     strategy: 
       runOnce:
           deploy:
