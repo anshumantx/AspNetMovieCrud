@@ -54,7 +54,7 @@ stages:
     environment:
       name:  winappAzureVM.WindowsServerVM
       resourceType: VirtualMachine
-      tags: AzureVM
+      tags: WindowsServerVM
     strategy: 
       runOnce:
           deploy:
