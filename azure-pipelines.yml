@@ -84,7 +84,12 @@ stages:
                 Contents: '**'
                 TargetFolder: 'D:\AspNetApp'
                 OverWrite: true
-
+            - task: AzurePowerShell@5
+              inputs:
+                azureSubscription: 'Visual Studio Enterprise – MPN (da791a4e-3933-4213-a43e-f94f3e2187c3)'
+                ScriptType: 'InlineScript'
+                Inline: 'Get-WebBinding -Port 80 -Name "Default Web Site" | Remove-WebBinding'
+                azurePowerShellVersion: 'LatestVersion'
 
             # - task: IISWebAppDeploymentOnMachineGroup@0
             #   inputs:
