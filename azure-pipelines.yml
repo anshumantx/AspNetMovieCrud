@@ -125,3 +125,11 @@ stages:
         DotNetVersionForWebsite: 'v4.0'
         PipeLineModeForWebsite: 'Integrated'
         AppPoolIdentityForWebsite: 'ApplicationPoolIdentity'
+
+    # - task: IISWebAppDeploy@2
+    #   inputs:
+    #     machinesList: '40.69.145.189'
+    #     AdminUserName: 'Anshuman'
+    #     AdminPassword: '$(AzureVMPass)'
+    #     WinRMProtocol: 'Https'
+    #     WebDeployPackage: 
