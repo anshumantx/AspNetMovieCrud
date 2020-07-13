@@ -84,6 +84,12 @@ stages:
                 Contents: '**'
                 TargetFolder: 'D:\AspNetApp'
                 OverWrite: true
+            - task: PowerShell@2
+              inputs:
+                targetType: 'inline'
+                script: 'Get-WebBinding -Port 80 -Name "Default Web Site" | Remove-WebBinding'
+                errorActionPreference: 'silentlyContinue'
+
             # - task: AzurePowerShell@5
             #   inputs:
             #     azureSubscription: 'Visual Studio Enterprise – MPN (da791a4e-3933-4213-a43e-f94f3e2187c3)'
@@ -105,39 +111,35 @@ stages:
             #     WebsitePhysicalPath: '%SystemDrive%\inetpub\wwwroot'
             #     WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
 
-- stage: IIS_Deployment
-  jobs:
-  - job : Initial_Build
-    steps:
-    - task: IISWebAppMgmt@3
-      inputs:
-        machinesList: '40.69.145.189'
-        AdminUserName: 'Anshuman'
-        AdminPassword: '$(AzureVMPass)'
-        WinRMProtocol: 'Https'
-        IISDeploymentType: 'IISWebsite'
-        ActionIISWebsite: 'CreateOrUpdateWebsite'
-        WebsiteName: 'RazorPagesMovie'
-        WebsitePhysicalPath: '%SystemDrive%\inetpub\wwwroot'
-        WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
-        AddBinding: true
-        CreateOrUpdateAppPoolForWebsite: true
-        ConfigureAuthenticationForWebsite: true
-        Protocol: 'http'
-        IPAddress: 'All Unassigned'
-        Port: '80'
-        AppPoolNameForWebsite: 'RazorPagesMoviePool'
-        DotNetVersionForWebsite: 'v4.0'
-        PipeLineModeForWebsite: 'Integrated'
-        AppPoolIdentityForWebsite: 'ApplicationPoolIdentity'
-        AnonymousAuthenticationForWebsite: true
-        WindowsAuthenticationForWebsite: false
+            - task: IISWebAppMgmt@3
+              inputs:
+                machinesList: '40.69.145.189'
+                AdminUserName: 'Anshuman'
+                AdminPassword: '$(AzureVMPass)'
+                WinRMProtocol: 'Https'
+                IISDeploymentType: 'IISWebsite'
+                ActionIISWebsite: 'CreateOrUpdateWebsite'
+                WebsiteName: 'RazorPagesMovie'
+                WebsitePhysicalPath: '%SystemDrive%\inetpub\wwwroot'
+                WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
+                AddBinding: true
+                CreateOrUpdateAppPoolForWebsite: true
+                ConfigureAuthenticationForWebsite: true
+                Protocol: 'http'
+                IPAddress: 'All Unassigned'
+                Port: '80'
+                AppPoolNameForWebsite: 'RazorPagesMoviePool'
+                DotNetVersionForWebsite: 'v4.0'
+                PipeLineModeForWebsite: 'Integrated'
+                AppPoolIdentityForWebsite: 'ApplicationPoolIdentity'
+                AnonymousAuthenticationForWebsite: true
+                WindowsAuthenticationForWebsite: false
 
-    - task: IISWebAppDeploy@2
-      inputs:
-        machinesList: '40.69.145.189'
-        AdminUserName: 'Anshuman'
-        AdminPassword: '$(AzureVMPass)'
-        WinRMProtocol: 'Https'
-        WebDeployPackage: 'D:\AspNetApp'
-        WebsiteName: 'RazorPagesMovie'
+            - task: IISWebAppDeploy@2
+              inputs:
+                machinesList: '40.69.145.189'
+                AdminUserName: 'Anshuman'
+                AdminPassword: '$(AzureVMPass)'
+                WinRMProtocol: 'Https'
+                WebDeployPackage: 'D:\AspNetApp'
+                WebsiteName: 'RazorPagesMovie'
