@@ -130,6 +130,8 @@ stages:
         DotNetVersionForWebsite: 'v4.0'
         PipeLineModeForWebsite: 'Integrated'
         AppPoolIdentityForWebsite: 'ApplicationPoolIdentity'
+        AnonymousAuthenticationForWebsite: true
+        WindowsAuthenticationForWebsite: false
 
     - task: IISWebAppDeploy@2
       inputs:
