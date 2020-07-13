@@ -112,7 +112,15 @@ stages:
         WebsiteName: 'RazorPagesMovie'
 
 
-
+    - task: IISWebAppMgmt@3
+      inputs:
+        machinesList: '40.69.145.189'
+        AdminUserName: 'Anshuman'
+        AdminPassword: '$(AzureVMPass)'
+        WinRMProtocol: 'Https'
+        IISDeploymentType: 'IISWebsite'
+        ActionIISWebsite: 'StartWebsite'
+        StartStopWebsiteName: 'RazorPagesMovie'
 
 
 
