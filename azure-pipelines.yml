@@ -100,7 +100,7 @@ stages:
             #     WebsitePhysicalPath: '%SystemDrive%\inetpub\wwwroot'
             #     WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
 
-- stage: IIS Deployment
+- stage: IIS_Deployment
   jobs:
   - job : Initial_Build
     steps:
