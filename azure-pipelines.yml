@@ -132,4 +132,5 @@ stages:
         AdminUserName: 'Anshuman'
         AdminPassword: '$(AzureVMPass)'
         WinRMProtocol: 'Https'
-        WebDeployPackage: 
+        WebDeployPackage: 'D:\AspNetApp'
+        WebsiteName: 'RazorPagesMovie'
