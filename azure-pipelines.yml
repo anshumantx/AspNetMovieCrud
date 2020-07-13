@@ -86,10 +86,10 @@ stages:
                 OverWrite: true
 
 
-            - task: IISWebAppDeploymentOnMachineGroup@0
-              inputs:
-                WebSiteName: 'RazorPagesMovie'
-                Package: '$(Pipeline.Workspace)/aspcrudapp/s/RazorPagesMovie/bin/Release/netcoreapp3.1/*.zip'
+            # - task: IISWebAppDeploymentOnMachineGroup@0
+            #   inputs:
+            #     WebSiteName: 'RazorPagesMovie'
+            #     Package: '$(Pipeline.Workspace)/aspcrudapp/s/RazorPagesMovie/bin/Release/netcoreapp3.1/*.zip'
 
 
             # - task: IISWebAppManagementOnMachineGroup@0
@@ -99,3 +99,29 @@ stages:
             #     ActionIISWebsite: 'CreateOrUpdateWebsite'
             #     WebsitePhysicalPath: '%SystemDrive%\inetpub\wwwroot'
             #     WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
+
+- stage: IIS Deployment
+  jobs:
+  - job : Initial_Build
+    steps:
+    - task: IISWebAppMgmt@3
+      inputs:
+        machinesList: '40.69.145.189'
+        AdminUserName: 'Anshuman'
+        AdminPassword: '$(AzureVMPass)'
+        WinRMProtocol: 'Https'
+        IISDeploymentType: 'IISWebsite'
+        ActionIISWebsite: 'CreateOrUpdateWebsite'
+        WebsiteName: 'RazorPagesMovie'
+        WebsitePhysicalPath: '%SystemDrive%\inetpub\wwwroot'
+        WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
+        AddBinding: true
+        CreateOrUpdateAppPoolForWebsite: true
+        ConfigureAuthenticationForWebsite: true
+        Protocol: 'http'
+        IPAddress: 'All Unassigned'
+        Port: '80'
+        AppPoolNameForWebsite: 'RazorPagesMoviePool'
+        DotNetVersionForWebsite: 'v4.0'
+        PipeLineModeForWebsite: 'Integrated'
+        AppPoolIdentityForWebsite: 'ApplicationPoolIdentity'
