@@ -47,23 +47,6 @@ stages:
 
 
 
-# - task: AzureFileCopy@4
-#   inputs:
-#     SourcePath: '$(Pipeline.Workspace)/aspcrudapp/s/RazorPagesMovie/bin/Release/netcoreapp3.1'
-#     azureSubscription: 'Visual Studio Enterprise – MPN (da791a4e-3933-4213-a43e-f94f3e2187c3)'
-#     Destination: 'AzureVMs'
-#     storage: 'txwinappsdeploymentgroup'
-#     resourceGroup: 'TXWINAPPSDEPLOYMENTGROUP'
-#     MachineNames: 'WindowsServerVM'
-#     vmsAdminUserName: 'Anshuman'
-#     vmsAdminPassword: 'Admin@123456'
-#     TargetPath: 'D:\AspNetApp'
-
-
-
-
-
-
 - stage : Deploy
   displayName: Deploy stage
   dependsOn: Build
@@ -90,56 +73,89 @@ stages:
                 script: 'Get-WebBinding -Port 80 -Name "Default Web Site" | Remove-WebBinding'
                 errorActionPreference: 'silentlyContinue'
 
-            # - task: AzurePowerShell@5
-            #   inputs:
-            #     azureSubscription: 'Visual Studio Enterprise – MPN (da791a4e-3933-4213-a43e-f94f3e2187c3)'
-            #     ScriptType: 'InlineScript'
-            #     Inline: 'Get-WebBinding -Port 80 -Name "Default Web Site" | Remove-WebBinding'
-            #     azurePowerShellVersion: 'LatestVersion'
 
-            # - task: IISWebAppDeploymentOnMachineGroup@0
-            #   inputs:
-            #     WebSiteName: 'RazorPagesMovie'
-            #     Package: '$(Pipeline.Workspace)/aspcrudapp/s/RazorPagesMovie/bin/Release/netcoreapp3.1/*.zip'
+- stage: IIS_Deployment
+  jobs:
+  - job : IIS_Deployment
+    steps:
+    - task: IISWebAppMgmt@3
+      inputs:
+        machinesList: '40.69.145.189'
+        AdminUserName: 'Anshuman'
+        AdminPassword: '$(AzureVMPass)'
+        WinRMProtocol: 'Https'
+        IISDeploymentType: 'IISWebsite'
+        ActionIISWebsite: 'CreateOrUpdateWebsite'
+        WebsiteName: 'RazorPagesMovie'
+        WebsitePhysicalPath: '%SystemDrive%\inetpub\wwwroot'
+        WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
+        AddBinding: true
+        CreateOrUpdateAppPoolForWebsite: true
+        ConfigureAuthenticationForWebsite: true
+        Protocol: 'http'
+        IPAddress: 'All Unassigned'
+        Port: '80'
+        AppPoolNameForWebsite: 'RazorPagesMoviePool'
+        DotNetVersionForWebsite: 'v4.0'
+        PipeLineModeForWebsite: 'Integrated'
+        AppPoolIdentityForWebsite: 'ApplicationPoolIdentity'
+        AnonymousAuthenticationForWebsite: true
+        WindowsAuthenticationForWebsite: false
+
+    - task: IISWebAppDeploy@2
+      inputs:
+        machinesList: '40.69.145.189'
+        AdminUserName: 'Anshuman'
+        AdminPassword: '$(AzureVMPass)'
+        WinRMProtocol: 'Https'
+        WebDeployPackage: 'D:\AspNetApp'
+        WebsiteName: 'RazorPagesMovie'
 
 
-            # - task: IISWebAppManagementOnMachineGroup@0
-            #   inputs:
-            #     EnableIIS: true
-            #     IISDeploymentType: 'IISWebsite'
-            #     ActionIISWebsite: 'CreateOrUpdateWebsite'
-            #     WebsitePhysicalPath: '%SystemDrive%\inetpub\wwwroot'
-            #     WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
 
-            - task: IISWebAppMgmt@3
-              inputs:
-                machinesList: '40.69.145.189'
-                AdminUserName: 'Anshuman'
-                AdminPassword: '$(AzureVMPass)'
-                WinRMProtocol: 'Https'
-                IISDeploymentType: 'IISWebsite'
-                ActionIISWebsite: 'CreateOrUpdateWebsite'
-                WebsiteName: 'RazorPagesMovie'
-                WebsitePhysicalPath: '%SystemDrive%\inetpub\wwwroot'
-                WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
-                AddBinding: true
-                CreateOrUpdateAppPoolForWebsite: true
-                ConfigureAuthenticationForWebsite: true
-                Protocol: 'http'
-                IPAddress: 'All Unassigned'
-                Port: '80'
-                AppPoolNameForWebsite: 'RazorPagesMoviePool'
-                DotNetVersionForWebsite: 'v4.0'
-                PipeLineModeForWebsite: 'Integrated'
-                AppPoolIdentityForWebsite: 'ApplicationPoolIdentity'
-                AnonymousAuthenticationForWebsite: true
-                WindowsAuthenticationForWebsite: false
 
-            - task: IISWebAppDeploy@2
-              inputs:
-                machinesList: '40.69.145.189'
-                AdminUserName: 'Anshuman'
-                AdminPassword: '$(AzureVMPass)'
-                WinRMProtocol: 'Https'
-                WebDeployPackage: 'D:\AspNetApp'
-                WebsiteName: 'RazorPagesMovie'
+
+
+
+
+
+
+
+
+
+
+
+# - task: AzurePowerShell@5
+#   inputs:
+#     azureSubscription: 'Visual Studio Enterprise – MPN (da791a4e-3933-4213-a43e-f94f3e2187c3)'
+#     ScriptType: 'InlineScript'
+#     Inline: 'Get-WebBinding -Port 80 -Name "Default Web Site" | Remove-WebBinding'
+#     azurePowerShellVersion: 'LatestVersion'
+
+# - task: IISWebAppDeploymentOnMachineGroup@0
+#   inputs:
+#     WebSiteName: 'RazorPagesMovie'
+#     Package: '$(Pipeline.Workspace)/aspcrudapp/s/RazorPagesMovie/bin/Release/netcoreapp3.1/*.zip'
+
+
+# - task: IISWebAppManagementOnMachineGroup@0
+#   inputs:
+#     EnableIIS: true
+#     IISDeploymentType: 'IISWebsite'
+#     ActionIISWebsite: 'CreateOrUpdateWebsite'
+#     WebsitePhysicalPath: '%SystemDrive%\inetpub\wwwroot'
+#     WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
+
+
+
+# - task: AzureFileCopy@4
+#   inputs:
+#     SourcePath: '$(Pipeline.Workspace)/aspcrudapp/s/RazorPagesMovie/bin/Release/netcoreapp3.1'
+#     azureSubscription: 'Visual Studio Enterprise – MPN (da791a4e-3933-4213-a43e-f94f3e2187c3)'
+#     Destination: 'AzureVMs'
+#     storage: 'txwinappsdeploymentgroup'
+#     resourceGroup: 'TXWINAPPSDEPLOYMENTGROUP'
+#     MachineNames: 'WindowsServerVM'
+#     vmsAdminUserName: 'Anshuman'
+#     vmsAdminPassword: 'Admin@123456'
+#     TargetPath: 'D:\AspNetApp'
