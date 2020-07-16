@@ -74,53 +74,53 @@ stages:
                 errorActionPreference: 'silentlyContinue'
 
 
-- stage: IIS_Deployment
-  jobs:
-  - job : IIS_Deployment
-    steps:
-    - task: IISWebAppMgmt@3
-      inputs:
-        machinesList: '40.69.145.189'
-        AdminUserName: 'Anshuman'
-        AdminPassword: '$(AzureVMPass)'
-        WinRMProtocol: 'Https'
-        IISDeploymentType: 'IISWebsite'
-        ActionIISWebsite: 'CreateOrUpdateWebsite'
-        WebsiteName: 'RazorPagesMovie'
-        WebsitePhysicalPath: '%SystemDrive%\inetpub\wwwroot'
-        WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
-        AddBinding: true
-        CreateOrUpdateAppPoolForWebsite: true
-        ConfigureAuthenticationForWebsite: true
-        Protocol: 'http'
-        IPAddress: 'All Unassigned'
-        Port: '80'
-        AppPoolNameForWebsite: 'RazorPagesMoviePool'
-        DotNetVersionForWebsite: 'v4.0'
-        PipeLineModeForWebsite: 'Integrated'
-        AppPoolIdentityForWebsite: 'ApplicationPoolIdentity'
-        AnonymousAuthenticationForWebsite: true
-        WindowsAuthenticationForWebsite: false
+# - stage: IIS_Deployment
+#   jobs:
+#   - job : IIS_Deployment
+#     steps:
+#     - task: IISWebAppMgmt@3
+#       inputs:
+#         machinesList: '40.69.145.189'
+#         AdminUserName: 'Anshuman'
+#         AdminPassword: '$(AzureVMPass)'
+#         WinRMProtocol: 'Https'
+#         IISDeploymentType: 'IISWebsite'
+#         ActionIISWebsite: 'CreateOrUpdateWebsite'
+#         WebsiteName: 'RazorPagesMovie'
+#         WebsitePhysicalPath: '%SystemDrive%\inetpub\wwwroot'
+#         WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
+#         AddBinding: true
+#         CreateOrUpdateAppPoolForWebsite: true
+#         ConfigureAuthenticationForWebsite: true
+#         Protocol: 'http'
+#         IPAddress: 'All Unassigned'
+#         Port: '80'
+#         AppPoolNameForWebsite: 'RazorPagesMoviePool'
+#         DotNetVersionForWebsite: 'v4.0'
+#         PipeLineModeForWebsite: 'Integrated'
+#         AppPoolIdentityForWebsite: 'ApplicationPoolIdentity'
+#         AnonymousAuthenticationForWebsite: true
+#         WindowsAuthenticationForWebsite: false
 
-    - task: IISWebAppDeploy@2
-      inputs:
-        machinesList: '40.69.145.189'
-        AdminUserName: 'Anshuman'
-        AdminPassword: '$(AzureVMPass)'
-        WinRMProtocol: 'Https'
-        WebDeployPackage: 'D:\AspNetApp'
-        WebsiteName: 'RazorPagesMovie'
+#     - task: IISWebAppDeploy@2
+#       inputs:
+#         machinesList: '40.69.145.189'
+#         AdminUserName: 'Anshuman'
+#         AdminPassword: '$(AzureVMPass)'
+#         WinRMProtocol: 'Https'
+#         WebDeployPackage: 'D:\AspNetApp'
+#         WebsiteName: 'RazorPagesMovie'
 
 
-    - task: IISWebAppMgmt@3
-      inputs:
-        machinesList: '40.69.145.189'
-        AdminUserName: 'Anshuman'
-        AdminPassword: '$(AzureVMPass)'
-        WinRMProtocol: 'Https'
-        IISDeploymentType: 'IISWebsite'
-        ActionIISWebsite: 'StartWebsite'
-        StartStopWebsiteName: 'RazorPagesMovie'
+#     - task: IISWebAppMgmt@3
+#       inputs:
+#         machinesList: '40.69.145.189'
+#         AdminUserName: 'Anshuman'
+#         AdminPassword: '$(AzureVMPass)'
+#         WinRMProtocol: 'Https'
+#         IISDeploymentType: 'IISWebsite'
+#         ActionIISWebsite: 'StartWebsite'
+#         StartStopWebsiteName: 'RazorPagesMovie'
 
 
 
