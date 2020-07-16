@@ -56,7 +56,6 @@ stages:
     environment:
       name: WindowsServerVM
       resourceType: VirtualMachine
-      tags: WinApps
     strategy: 
       runOnce:
           deploy:
