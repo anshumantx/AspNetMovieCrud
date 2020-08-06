@@ -47,12 +47,23 @@ stages:
         ArtifactName: 'drop'
         publishLocation: 'Container'
 
-
 - stage: DATABASE_DEPLOY
   dependsOn: Build
   jobs:
   - job : DATABASE_DEPLOY
     steps:
+    - task: SqlDacpacDeploy@2
+      inputs:
+        machinesList: '52.165.168.212'
+        AdminUserName: '$(VmUser)'
+        AdminPassword: '$(msSQLuserPswd)'
+        TaskType: 'sqlInline'
+        InlineSql: 'get ”txPiplineTestAlpha”'
+        ServerName: 'WinServerAlpha\SQLEXPRESS'
+        DatabaseName: 'txPiplineTestAlpha'
+        AuthScheme: 'sqlServerAuthentication'
+        SqlUsername: 'test'
+        SqlPassword: '1234'
     - task: AzurePowerShell@5
       inputs:
         azureSubscription: 'Visual Studio Enterprise – MPN (da791a4e-3933-4213-a43e-f94f3e2187c3)'
