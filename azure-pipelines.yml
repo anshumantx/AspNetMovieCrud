@@ -114,7 +114,7 @@ stages:
           - task: PowerShell@2
             inputs:
               targetType: 'inline'
-              script: 'sqlcmd -E -v DATABASENAME=”txPiplineTestAlpha” -i C:\Users\Anshuman\createdb.sql'
+              script: 'sqlcmd -E -v DATABASENAME=”txPiplineTestAlphaFinal” -i C:\Users\Anshuman\createdb.sql'
               errorActionPreference: 'continue'
 
           - task: IISWebAppManagementOnMachineGroup@0
@@ -145,14 +145,14 @@ stages:
 
 # This is a one time job 
 
-          - task: MysqlDeploymentOnMachineGroup@1
-            inputs:
-              TaskNameSelector: 'InlineSqlTask'
-              SqlInline: 'sqlcmd -E -v DATABASENAME=”txtestbeta” -i C:\Users\Anshuman\createdb.sql'
-              ServerName: 'WinServerAlpha\\SQLEXPRESS'
-              DatabaseName: 'TxTest!'
-              SqlUsername: 'test'
-              SqlPassword: '$(msSQLuserPswd)'
+          # - task: MysqlDeploymentOnMachineGroup@1
+          #   inputs:
+          #     TaskNameSelector: 'InlineSqlTask'
+          #     SqlInline: 'sqlcmd -E -v DATABASENAME=”txtestbeta” -i C:\Users\Anshuman\createdb.sql'
+          #     ServerName: 'WinServerAlpha\\SQLEXPRESS'
+          #     DatabaseName: 'TxTest!'
+          #     SqlUsername: 'test'
+          #     SqlPassword: '$(msSQLuserPswd)'
 
 
 
