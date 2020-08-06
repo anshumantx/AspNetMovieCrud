@@ -105,6 +105,15 @@ stages:
               XmlVariableSubstitution: $(Parameters.XmlVariableSubstitution)
 
 
+# This is a one time job 
+
+          - task: MysqlDeploymentOnMachineGroup@1
+            inputs:
+              TaskNameSelector: 'InlineSqlTask'
+              ServerName: 'WinServerAlpha\\SQLEXPRESS'
+              DatabaseName: 'TxTest!'
+              SqlUsername: 'test'
+              SqlPassword: '$(msSQLuserPswd)'
 
 
 
