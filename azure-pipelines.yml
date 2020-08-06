@@ -9,7 +9,7 @@ trigger:
 - '*'
 
 stages:
-- stage: 'Build'
+- stage: Build
   displayName: 'Build the web application'
   jobs:
   - job: 'Build'
@@ -49,6 +49,7 @@ stages:
 
 
 - stage: DATABASE_DEPLOY
+  dependsOn: Build
   jobs:
   - job : DATABASE_DEPLOY
     steps:
@@ -63,7 +64,7 @@ stages:
 
 - stage: 'Deploy'
   displayName: 'Deploy the web application'
-  dependsOn: Build
+  dependsOn: DATABASE_DEPLOY
   jobs:
   - deployment: 'DeployToDev'
     displayName: 'Deploy the web application to dev environment'
