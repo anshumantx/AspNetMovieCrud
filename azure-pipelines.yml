@@ -22,56 +22,71 @@ stages:
   jobs:
   - job : Initial_Build
     steps:
-    - task: NuGetToolInstaller@1
-
-    - task: NuGetCommand@2
+    - task: DotNetCoreCLI@2
       inputs:
-        restoreSolution: '$(solution)'
+        command: publish
+        publishWebProjects: True
+        arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+        zipAfterPublish: True 
 
-    - task: VSBuild@1
-      inputs:
-        solution: '$(solution)'
-        platform: '$(buildPlatform)'
-        configuration: '$(buildConfiguration)'
+    - task: PublishBuildArtifacts@1
+      displayName: 'publish artifacts'
 
-    - task: CopyFiles@2
-      inputs:
-        SourceFolder: '$(system.defaultworkingdirectory)'
-        Contents: '**\bin\$(BuildConfiguration)\**'
-        TargetFolder: '$(build.artifactstagingdirectory)'
+# stages:
+# - stage: Build
+#   jobs:
+#   - job : Initial_Build
+#     steps:
+#     - task: NuGetToolInstaller@1
 
-    - task: PublishPipelineArtifact@1
-      inputs:
-        targetPath: '$(Pipeline.Workspace)'
-        artifact: 'aspcrudapp'
-        publishLocation: 'pipeline'
+#     - task: NuGetCommand@2
+#       inputs:
+#         restoreSolution: '$(solution)'
+
+#     - task: VSBuild@1
+#       inputs:
+#         solution: '$(solution)'
+#         platform: '$(buildPlatform)'
+#         configuration: '$(buildConfiguration)'
+
+#     - task: CopyFiles@2
+#       inputs:
+#         SourceFolder: '$(system.defaultworkingdirectory)'
+#         Contents: '**\bin\$(BuildConfiguration)\**'
+#         TargetFolder: '$(build.artifactstagingdirectory)'
+
+#     - task: PublishPipelineArtifact@1
+#       inputs:
+#         targetPath: '$(Pipeline.Workspace)'
+#         artifact: 'aspcrudapp'
+#         publishLocation: 'pipeline'
 
 
 
-- stage : Deploy
-  displayName: Deploy stage
-  dependsOn: Build
-  jobs:  
-  - deployment: VMDeploy
-    displayName: web
-    environment:
-      name: WindowsServerVM
-      resourceType: VirtualMachine
-    strategy: 
-      runOnce:
-          deploy:
-            steps:
-            - task: CopyFiles@2
-              inputs:
-                SourceFolder: '$(Pipeline.Workspace)/aspcrudapp/s/RazorPagesMovie/bin/Release/netcoreapp3.1'
-                Contents: '**'
-                TargetFolder: 'D:\AspNetApp'
-                OverWrite: true
-            - task: PowerShell@2
-              inputs:
-                targetType: 'inline'
-                script: 'Get-WebBinding -Port 80 -Name "Default Web Site" | Remove-WebBinding'
-                errorActionPreference: 'silentlyContinue'
+# - stage : Deploy
+#   displayName: Deploy stage
+#   dependsOn: Build
+#   jobs:  
+#   - deployment: VMDeploy
+#     displayName: web
+#     environment:
+#       name: WindowsServerVM
+#       resourceType: VirtualMachine
+#     strategy: 
+#       runOnce:
+#           deploy:
+#             steps:
+#             - task: CopyFiles@2
+#               inputs:
+#                 SourceFolder: '$(Pipeline.Workspace)/aspcrudapp/s/RazorPagesMovie/bin/Release/netcoreapp3.1'
+#                 Contents: '**'
+#                 TargetFolder: 'D:\AspNetApp'
+#                 OverWrite: true
+#             - task: PowerShell@2
+#               inputs:
+#                 targetType: 'inline'
+#                 script: 'Get-WebBinding -Port 80 -Name "Default Web Site" | Remove-WebBinding'
+#                 errorActionPreference: 'silentlyContinue'
 
 
 
