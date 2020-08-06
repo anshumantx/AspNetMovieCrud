@@ -53,6 +53,11 @@ stages:
   jobs:
   - job : DATABASE_DEPLOY
     steps:
+    - task: AzurePowerShell@5
+      inputs:
+        azureSubscription: 'Visual Studio Enterprise – MPN (da791a4e-3933-4213-a43e-f94f3e2187c3)'
+        ScriptType: 'InlineScript'
+        azurePowerShellVersion: 'LatestVersion'
     - task: PowerShellOnTargetMachines@3
       inputs:
         Machines: '52.165.168.212'
@@ -60,7 +65,6 @@ stages:
         UserPassword: '$(AzureVMPass)'
         InlineScript: 'sqlcmd -E -v DATABASENAME=”txPiplineTestAlpha” -i C:\Users\Anshuman\createdb.sql'
         ErrorActionPreference: 'silentlyContinue'
-
 
 - stage: 'Deploy'
   displayName: 'Deploy the web application'
