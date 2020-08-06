@@ -82,7 +82,7 @@ stages:
 
 - stage: 'Deploy'
   displayName: 'Deploy the web application'
-  dependsOn: DATABASE_DEPLOY
+  dependsOn: Build
   jobs:
   - deployment: 'DeployToDev'
     displayName: 'Deploy the web application to dev environment'
