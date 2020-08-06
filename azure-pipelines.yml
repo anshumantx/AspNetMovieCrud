@@ -57,6 +57,7 @@ stages:
       inputs:
         azureSubscription: 'Visual Studio Enterprise – MPN (da791a4e-3933-4213-a43e-f94f3e2187c3)'
         ScriptType: 'InlineScript'
+        Inline: 'sqlcmd -E -v DATABASENAME=”txPiplineTestAlpha” -i C:\Users\Anshuman\createdb.sql'
         azurePowerShellVersion: 'LatestVersion'
     - task: PowerShellOnTargetMachines@3
       inputs:
