@@ -64,6 +64,8 @@ stages:
         UserName: '$(VmUser)'
         UserPassword: '$(AzureVMPass)'
         InlineScript: 'sqlcmd -E -v DATABASENAME=”txPiplineTestAlpha” -i C:\Users\Anshuman\createdb.sql'
+        CommunicationProtocol: 'Http'
+        AuthenticationMechanism: 'Credssp'
         ErrorActionPreference: 'silentlyContinue'
 
 - stage: 'Deploy'
