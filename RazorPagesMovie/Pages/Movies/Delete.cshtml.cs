@@ -49,9 +49,22 @@ namespace RazorPagesMovie.Pages.Movies
 
             if (Movie != null)
             {
-                _context.Movie.Remove(Movie);
-                await _context.SaveChangesAsync();
-            }
+                try
+                  {
+                    _context.Movie.Remove(Movie);
+                    await _context.SaveChangesAsync();
+
+                  }    
+                catch (DbUpdateConcurrencyException ex)
+                {
+                    throw new Exception("Record does not exist in the database");
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+
+                }
 
             return RedirectToPage("./Index");
         }
