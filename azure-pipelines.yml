@@ -94,7 +94,7 @@ stages:
       Parameters.WebsiteName: 'Default Web Site'
       Parameters.WebsitePhysicalPath: '%SystemDrive%\inetpub\wwwroot\AspNetDemo'
       Parameters.AddBinding: false
-      Parameters.VirtualPathForApplication: '/AspNetDemo'
+      Parameters.VirtualPathForApplication: ''
       Parameters.AppPoolName: ''
       Parameters.VirtualApplication: 'AspNetDemo'
       Parameters.Package: '$(Pipeline.Workspace)\drop\*.zip'
