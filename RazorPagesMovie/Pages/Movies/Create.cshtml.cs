@@ -35,22 +35,6 @@ namespace RazorPagesMovie.Pages.Movies
             {
                 return Page();
             }
-
-
-              try
-                {
-                _context.Movie.Add(Movie);
-                await _context.SaveChangesAsync();
-
-                }    
-                catch (DbUpdateConcurrencyException ex)
-                {
-                    throw new Exception("Record does not exist in the database");
-                }
-                catch (Exception ex)
-                {
-                    throw;
-                }
             return RedirectToPage("./Index");
         }
     }
